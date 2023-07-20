@@ -56,7 +56,7 @@ defmodule Elixlsx.Image do
       y_from_offset: Keyword.get(opts, :y_from_offset, 0),
       x_to_offset: Keyword.get(opts, :x_to_offset, 0),
       y_to_offset: Keyword.get(opts, :y_to_offset, 0),
-      positioning: Keyword.get(opts, :positioning, ""),
+      positioning: Keyword.get(opts, :positioning, :twoCell),
       width: Keyword.get(opts, :width, 1),
       height: Keyword.get(opts, :height, 1)
     }
