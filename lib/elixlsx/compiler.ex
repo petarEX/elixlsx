@@ -36,16 +36,16 @@ defmodule Elixlsx.Compiler do
           {list(DrawingCompInfo.t()), non_neg_integer}
   def make_drawing_info(sheets, init_rId) do
     # fold helper. aggregator holds {list(DrawingCompInfo), drawingidx, rId}.
-    add_sheet = fn sheet, {dci, idx, rId} ->
+    add_sheet = fn sheet, {dci, idx, sheet_idx, rId} ->
       if sheet.images == [] do
-        {dci, idx, rId}
+        {dci, idx, sheet_idx + 1, rId}
       else
-        {[DrawingCompInfo.make(idx, rId) | dci], idx + 1, rId + 1}
+        {[DrawingCompInfo.make(idx, rId, sheet_idx) | dci], idx + 1, sheet_idx + 1, rId + 1}
       end
     end
 
     # TODO probably better to use a zip [1..] |> map instead of fold[l|r]/reverse
-    {sheetCompInfos, _, nextrID} = List.foldl(sheets, {[], 1, init_rId}, add_sheet)
+    {sheetCompInfos, _, _, nextrID} = List.foldl(sheets, {[], 1, 1, init_rId}, add_sheet)
     {Enum.reverse(sheetCompInfos), nextrID}
   end
 
